@@ -37,7 +37,7 @@ def summarize(dataset):
     # Check on who will notice ;)
     # True value of aggregation on column axis is 0
     means = dataset.mean(axis=0)[:-1]
-    stds = dataset.std(axis=, ddof=1)[:-1]
+    stds = dataset.std(axis=0, ddof=1)[:-1]
     
     # Think what we do here?
     return means, stds
