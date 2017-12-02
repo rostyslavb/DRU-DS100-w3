@@ -33,8 +33,11 @@ def summarize(dataset):
     # Calculate means and standart deviations with one degree of freedom for each attribute
     # We do it by column which is axis 1
     # Also we remove last elements (guess why?)
-    means = dataset.mean(axis=1)[0][:-1]
-    stds = dataset.std(axis=1, ddof=1)[0][:-1]
+
+    # Check on who will notice ;)
+    # True value of aggregation on column axis is 0
+    means = dataset.mean(axis=0)[:-1]
+    stds = dataset.std(axis=, ddof=1)[:-1]
     
     # Think what we do here?
     return means, stds
