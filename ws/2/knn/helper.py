@@ -10,9 +10,7 @@ def calc_all_distancies(data_x,unknown):
     num_pred = unknown.shape[0]
     num_data = data_x.shape[0]
     dists = np.zeros((num_pred,num_data))
-    #~ for j in range(num_pred):
-        #~ tmp = data - unknown[j]
-        #~ dists[j] = (tmp*tmp).sum(axis=1)
+
     for i in range(num_pred):
         for j in range(num_data):
             dists[i,j] = euclidean(unknown[i],data_x[j])
@@ -26,7 +24,7 @@ def predict(dists,data_y,k):
         closest_y = data_y[dst.argsort()[:k]]
         import pdb;pdb.set_trace()
         y_pred[j] = stats.mode(closest_y,None).mode
-        #~y_pred[j] = Counter(closest_y).most_common(1)[0][0]
+
     return y_pred
 
 def accuracy(predicted,real):
@@ -34,19 +32,22 @@ def accuracy(predicted,real):
     total = len(predicted)
     return 100*correct/total
 
-def compare_k(data_x,data_y,test_x,
-          test_y,kmin=1,kmax=50,kstep=4):
+def compare_k(data_x, data_y, test_x, test_y,kmin=1,kmax=50,kstep=4):
     k = list(range(kmin, kmax, kstep))
     steps = len(k)
     features = np.zeros((steps,3))
+    
     print('Evaluating distancies started')
+    
     t0 = time.time()
     distancies = calc_all_distancies(data_x,test_x)
     miss = []
     t = time.time()
     s1 = data_x.shape[0]
     s2 = test_x.shape[0]
+    
     print('Distancies completed in %d seconds for %dx%d' %(t-t0,s1,s2))
+    
     for j in range(steps):
         t0 = time.time()
         yk = predict(distancies,data_y,k[j])
@@ -57,9 +58,11 @@ def compare_k(data_x,data_y,test_x,
         cond = yk!=test_y
         # import pdb;pdb.set_trace()
         miss.append({'k':k[j],'acc':features[j][1],'x':test_x[cond]})
+        
         print('k={0}, accuracy = {1}%, time = {2} sec'.format(k[j],features[j][1],features[j][2]))
+
     return features,miss
-# def misidentified():
+
 
 if __name__ == '__main__':
     num_observations = 300
@@ -68,7 +71,7 @@ if __name__ == '__main__':
     fig = plt.figure()
     plt.scatter(x1[:, 0], x1[:, 1], color='c',label='class1')
     plt.scatter(x2[:, 0], x2[:, 1], color='y',label='class2')
-    # plt.show()
+
     X = np.vstack((x1, x2)).astype(np.float32)
     Y = np.hstack((np.zeros(num_observations),
                    np.ones(num_observations)))
@@ -101,26 +104,3 @@ if __name__ == '__main__':
     plt.xlabel('k')
     plt.ylabel('accuracy, %')
     plt.show()
-    import pdb;pdb.set_trace()
-
-
-
-
-    # df = pd.read_csv('iris-data.csv',header=None)
-    # X = df[[0,1,2,3]].as_matrix()
-    # # ~ y = df[4]
-    # df[5] = 0
-    # names = df[4].unique()
-    # for j in range(len(names)):
-    #     df.loc[df[4] == names[j],5] = j
-    # data = np.array(df[[0,1,2,3]])
-    # y = np.array(df[5])
-    # ind = np.ones(150,dtype=bool)
-    # ind[np.unique(np.random.randint(1, 150, 30))] = False
-    # tst = np.logical_not(ind)
-    # x_tr = data[ind]
-    # y_tr = y[ind]
-    # x_tst = data[tst]
-    # y_tst = y[tst]
-    # res = compare(x_tr,y_tr,x_tst,y_tst,1,35,2)
-    # import pdb;pdb.set_trace()
