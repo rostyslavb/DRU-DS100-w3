@@ -36,6 +36,7 @@ def summarize(dataset):
 
     # Check on who will notice ;)
     # True value of aggregation on column axis is 0
+    # ws2-v1 validation
     means = dataset.mean(axis=0)[:-1]
     stds = dataset.std(axis=0, ddof=1)[:-1]
     
