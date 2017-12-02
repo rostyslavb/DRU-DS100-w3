@@ -31,16 +31,11 @@ def separateByClass(dataset):
 
 def summarize(dataset):
     # Calculate means and standart deviations with one degree of freedom for each attribute
-    # We do it by column which is axis 1
+    # We do it by column which is axis 1(we in 3d now)
     # Also we remove last elements (guess why?)
-
-    # Check on who will notice ;)
-    # True value of aggregation on column axis is 0
-    # ws2-v1 validation
-    means = dataset.mean(axis=0)[:-1]
-    stds = dataset.std(axis=0, ddof=1)[:-1]
+    means = dataset.mean(axis=1)[0][:-1]
+    stds = dataset.std(axis=1, ddof=1)[0][:-1]
     
-    # Think what we do here?
     return means, stds
 
 def summarizeByClass(dataset):
