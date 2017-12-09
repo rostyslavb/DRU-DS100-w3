@@ -42,7 +42,9 @@ class SVMTrainer(object):
         for i, x_i in enumerate(X):
             for j, x_j in enumerate(X):
                 K[i, j] = self._kernel(x_i, x_j)
-
+        
+        #K = self._kernel(X)
+        
         return K
 
 
